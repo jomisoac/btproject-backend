@@ -16,7 +16,7 @@ module.exports = {
         data.user = {
             username: String(data.identificacion),
             password: String(data.identificacion),
-            rol: 'CONDUCTOR',
+            rol: 'EMPLEADO',
             email: req.allParams().email || ''
         };
         Empleados.create(data)
