@@ -40,8 +40,13 @@ module.exports = {
                                         'apellidos',
                                         'imagen',
                                         'empresa',
+                                        'email',
+                                        'activo',
                                         'identificacion',
-                                        'movil'
+                                        'movil',
+                                        'fecha_nacimiento',
+                                        'telefono',
+                                        'direccion'
                                     ]);
                                     callback(user);
                                 }).catch(res.negotiate);
