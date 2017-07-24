@@ -36,7 +36,7 @@ module.exports = {
             var fields = req.param('fields').replace(/ /g, '').split(',');
 
 
-            //verifico que no este consultando una columna que no exista en conductores
+            //verifico que no este consultando una columna que no exista en empleados
             const dif = actionUtil.checkFields(fields, Empleados);
             if (dif.length) {
                 return res.badRequest({'error': 'error in fields, [' + dif.toString() + ']'});
@@ -76,7 +76,7 @@ module.exports = {
                             if (!uploadedFiles[0]) return res.badRequest('ha ocurrido un error inesperado al almacenar la imagen');
                             const filename = _.last(uploadedFiles[0].fd.split('/'));
                             empleado.imagen = filename;
-                            empleado.save((err, s) => res.ok('files upload'));
+                            empleado.save((err, s) => res.ok('Archivos cargados'));
                         }
                     );
                 } else {
