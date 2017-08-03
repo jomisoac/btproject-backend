@@ -59,12 +59,13 @@ module.exports = {
     },
 
     saveImagen(req, res){
+        console.log(req.file('file'));
         Empleados.findOne({id : req.params.id})
             .then((empleado) => {
                 if (empleado) {
                     if(empleado.imagen)
                         fs.unlink(sails.config.appPath + '/public/images/empleados/'+empleado.imagen);
-                    req.file('imagen').upload({
+                    req.file('file').upload({
                             dirname: sails.config.appPath + '/public/images/empleados',
                             saveAs: function (__newFileStream, cb) {
                                 cb(null, uid.sync(18) + empleado.id + '.' + _.last(__newFileStream.filename.split('.')));
@@ -74,7 +75,7 @@ module.exports = {
                         (error, uploadedFiles) => {
                             if (error) return res.negotiate(error);
                             if (!uploadedFiles[0]) return res.badRequest('ha ocurrido un error inesperado al almacenar la imagen');
-                            const filename = _.last(uploadedFiles[0].fd.split('/'));
+                            const filename = _.last(uploadedFiles[0].fd.split('\\'));
                             empleado.imagen = filename;
                             empleado.save((err, s) => res.ok('Archivos cargados'));
                         }

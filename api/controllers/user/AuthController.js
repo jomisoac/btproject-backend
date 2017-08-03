@@ -104,6 +104,7 @@ module.exports = {
     },
 
     updatePass(req, res) {
+        console.log(req);
         User.update(req.params.id, {password: req.allParams().password})
             .then(res.ok)
             .catch(res.negotiate);

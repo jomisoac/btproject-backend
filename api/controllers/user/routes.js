@@ -105,7 +105,7 @@ module.exports.routes = {
     }
   },
 
-  'PUT /user/:id/updateContrasena': {
+  'PUT /user/:id/updateContrasena/:password': {
     controller: 'user/Auth',
     action: 'updatePass',
 
