@@ -11,6 +11,7 @@ module.exports = {
         cliente_telefono: {type: 'string', size: 12},
         pos_lat: {type: 'string', size: 255},
         direccion: {type: 'string', size: 80},
+        ciudad: {type: 'string', size: 80},
         pos_lng: {type: 'string', size: 255},
         estado: {type: 'string', size: 20, defaultsTo: 'vigente'},
 
