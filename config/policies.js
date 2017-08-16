@@ -26,6 +26,6 @@ module.exports.policies = {
     },
 
     AsignacionesController: {
-        '*': ['isAuthenticated', 'filterByEmpleado']
+        '*': ['isAuthenticated', 'filterByEmpresa']
     },
 };

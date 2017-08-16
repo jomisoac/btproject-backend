@@ -5,6 +5,8 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+const moment = require('moment');
+
 module.exports = {
     identity: 'Asignaciones',
 
@@ -70,6 +72,9 @@ function limitFecha(req, default_dia) {
     fecha_hasta.set('hour', 0).set('minute', 0).set('second', 0);
     // fecha_desde.add(-1, 'd');
     fecha_hasta.add(1, 'd');
+
+    console.log(fecha_desde.toDate(), '**************');
+    console.log(fecha_hasta.toDate(), '**************');
     return {
         '>=': fecha_desde.toDate(),
         '<': fecha_hasta.toDate()
