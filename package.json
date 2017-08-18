@@ -5,6 +5,7 @@
   "description": "backend viajaseguro",
   "keywords": [],
   "dependencies": {
+    "fcm-node": "^1.2.0",
     "glob": "^7.0.6",
     "hoek": "^4.0.2",
     "include-all": "~0.1.6",

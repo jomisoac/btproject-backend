@@ -111,6 +111,7 @@ module.exports = {
     },
 
     updateRegId(req, res){
+        console.log(req.allParams());
         User.update(req.allParams().id, { reg_id: req.allParams().reg_id})
             .then(function (user) {
                 res.ok();

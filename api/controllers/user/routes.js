@@ -125,7 +125,7 @@ module.exports.routes = {
     action: 'updateRegId',
 
     swagger: {
-      methods: ['PUT'],
+      methods: ['POST'],
       summary: 'Actualiza el reg_id del usuario al iniciar sesion desde la aplicacion movil',
       responses: {
         200: {

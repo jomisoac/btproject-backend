@@ -33,8 +33,18 @@ module.exports = {
             }).catch(res.negotiate);
         });
 
-        function broadcastAsignacion(empleado) {
-            sails.sockets.broadcast('empleado' + empleado + 'watcher', 'madeAsignacion');
+        function broadcastAsignacion(data) {
+            Empleados.findOne({id: data}).then((empleado) => {
+                User.findOne({id: empleado.user}).then((user) => {
+                    var data = {
+                        title: 'Trabajo asignado',
+                        type: 'trabajo',
+                        body: 'Se te asigno un nuevo trabajo, actualiza para verificarlo.'
+                    }
+                    PusherService.send(data, user.reg_id);
+                })
+            });
+            sails.sockets.broadcast('empleado' + data + 'watcher', 'madeAsignacion');
         }
     },
 

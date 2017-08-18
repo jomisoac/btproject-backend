@@ -30,7 +30,7 @@ module.exports = function (req, res, next) {
                     id: empleado.id
                 }
                 req.user.empresa = {
-                    id: empresa.id,
+                    id: empleado.empresa,
                 };
                 next();
             }).catch(res.negotiate);
