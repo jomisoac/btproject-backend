@@ -44,7 +44,6 @@ module.exports = {
                     PusherService.send(data, user.reg_id);
                 })
             });
-            sails.sockets.broadcast('empleado' + data + 'watcher', 'madeAsignacion');
         }
     },
 
@@ -64,8 +63,19 @@ module.exports = {
         Asignaciones.update(req.allParams().id, {
             estado: req.allParams().estado
         }).then(updateRecords => {
+            Empleados.findOne({id: updateRecords[0].empleado}).then((empleado) => {
+                var data = {
+                    empleado : empleado,
+                    trabajo: updateRecords[0]
+                };
+                sails.sockets.broadcast('empresa'+empleado.empresa+'watcher', 'trabajoSocket', data, req);
+            });
             return res.ok();
         });
+    },
+
+    acceptAsignacion(req, res){
+
     }
 
 };

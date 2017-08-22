@@ -57,5 +57,21 @@ module.exports.routes = {
                 }
             }
         }
-    }
+    },
+
+    'PUT /asignaciones/:id/updateEstado': {
+        controller: 'Asignaciones',
+        action: 'updateEstado',
+
+        swagger: {
+            methods: ['PUT'],
+            summary: 'Anular asignacion',
+            responses: {
+                200: {
+                    description: 'OK'
+                }
+            }
+        }
+    },
+
 }

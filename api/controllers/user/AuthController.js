@@ -94,6 +94,18 @@ module.exports = {
             .catch(res.negotiate);
     },
 
+    suscribe_watcher(req, res){
+        if (!req.isSocket) {
+            return res.badRequest();
+        }
+        sails.sockets.join(req, 'empresa'+req.allParams().id+'watcher', function(err) {
+            if (err) {
+                return res.serverError(err);
+            }
+            return res.ok();
+        });
+    },
+
     refresh_token(req, res) {
         const auth_token = req.headers.authorization.split(' ');
         const oldDecoded = JWTService.token.decode(auth_token[1]);
