@@ -42,6 +42,7 @@ module.exports = {
                                         'empresa',
                                         'email',
                                         'activo',
+                                        'estado',
                                         'identificacion',
                                         'movil',
                                         'fecha_nacimiento',
@@ -116,14 +117,12 @@ module.exports = {
     },
 
     updatePass(req, res) {
-        console.log(req.allParams())
         User.update(req.params.id, {password: req.allParams().password})
             .then(res.ok)
             .catch(res.negotiate);
     },
 
     updateRegId(req, res){
-        console.log(req.allParams());
         User.update(req.params.id, { reg_id: req.allParams().reg_id})
             .then(res.ok)
             .catch(res.negotiate)

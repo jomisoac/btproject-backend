@@ -14,6 +14,7 @@ module.exports = {
         ciudad: {type: 'string', size: 80},
         pos_lng: {type: 'string', size: 255},
         estado: {type: 'string', size: 20, defaultsTo: 'vigente'},
+        imagen: {type: 'string'},
 
         empleado: {
             model: 'empleados'

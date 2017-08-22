@@ -88,6 +88,7 @@ module.exports = {
 
     updateEstado(req, res){
         const data = req.allParams();
+        console.log(data);
         Empleados.findOne({id : req.params.id})
             .then((empleado) => {
                 if(empleado){

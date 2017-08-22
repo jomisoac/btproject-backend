@@ -44,28 +44,13 @@ module.exports.routes = {
         }
     },
 
-    'PUT /asignaciones/:id/cancel': {
-        controller: 'Asignaciones',
-        action: 'updateEstado',
-
-        swagger: {
-            methods: ['PUT'],
-            summary: 'Anular asignacion',
-            responses: {
-                200: {
-                    description: 'OK'
-                }
-            }
-        }
-    },
-
     'PUT /asignaciones/:id/updateEstado': {
         controller: 'Asignaciones',
         action: 'updateEstado',
 
         swagger: {
             methods: ['PUT'],
-            summary: 'Anular asignacion',
+            summary: 'Acualiza el estado de la asignacion',
             responses: {
                 200: {
                     description: 'OK'
@@ -73,5 +58,35 @@ module.exports.routes = {
             }
         }
     },
+
+    'PUT /asignaciones/:id/updateHora': {
+        controller: 'Asignaciones',
+        action: 'updateHora',
+
+        swagger: {
+            methods: ['PUT'],
+            summary: 'Acualiza el estado de la asignacion',
+            responses: {
+                200: {
+                    description: 'OK'
+                }
+            }
+        }
+    },
+
+    'POST /asignaciones/:id/imagen':{
+    controller: 'Asignaciones',
+        action: 'saveImagen',
+
+        swagger: {
+        methods: ['POST'],
+            summary: 'Guarda la imagen de confirmacion de la asignacion',
+            responses: {
+            200: {
+                description: 'OK'
+            }
+        }
+    }
+},
 
 }

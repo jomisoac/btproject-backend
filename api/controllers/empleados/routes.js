@@ -71,7 +71,7 @@ module.exports.routes = {
 
         swagger: {
             methods: ['PUT'],
-            summary: 'Actualiza un conductor',
+            summary: 'Actualiza un empleado',
             responses: {
                 200: {
                     description: 'OK'
@@ -101,7 +101,7 @@ module.exports.routes = {
 
         swagger: {
             methods: ['DELETE'],
-            summary: 'Elimina un conductor',
+            summary: 'Elimina un empleado',
             responses: {
                 200: {
                     description: 'OK'
