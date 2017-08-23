@@ -66,7 +66,22 @@ module.exports = {
     updateEstado(req, res){
         if(req.allParams().estado === 'vigente'){
             Asignaciones.update(req.allParams().id, {
-                estado: req.allParams().estado
+                estado: req.allParams().estado,
+                imagen: null
+            }).then(updateRecords => {
+                Empleados.findOne({id: updateRecords[0].empleado}).then((empleado) => {
+
+                });
+                return res.ok();
+            });
+        }else if(req.allParams().estado === 'finalizado'){
+            var fecha = req.allParams().fecha_finalizada ? moment(req.allParams().fecha_finalizada) : moment();
+            fecha.set('hour', 0).set('minute', 0).set('second', 0);
+            fecha.add(1, 'd');
+            Asignaciones.update(req.allParams().id, {
+                estado: req.allParams().estado,
+                hora_finalizada: req.allParams().hora_finalizada,
+                fecha_finalizada: req.allParams().fecha_finalizada
             }).then(updateRecords => {
                 Empleados.findOne({id: updateRecords[0].empleado}).then((empleado) => {
                     var data = {
@@ -77,10 +92,9 @@ module.exports = {
                 });
                 return res.ok();
             });
-        }else{
+        }else {
             Asignaciones.update(req.allParams().id, {
-                estado: req.allParams().estado,
-                imagen: ''
+                estado: req.allParams().estado
             }).then(updateRecords => {
                 Empleados.findOne({id: updateRecords[0].empleado}).then((empleado) => {
                     var data = {
