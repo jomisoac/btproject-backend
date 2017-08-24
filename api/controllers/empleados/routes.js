@@ -94,6 +94,20 @@ module.exports.routes = {
             }
         }
     },
+    'PUT /empleados/:id/estado_pulsera': {
+        controller: 'Empleados',
+        action: 'estadoPulsera',
+
+        swagger: {
+            methods: ['PUT'],
+            summary: 'Actualiza el estado de la pulsera',
+            responses: {
+                200: {
+                    description: 'OK'
+                }
+            }
+        }
+    },
 
     'DELETE /empleados/:id':{
         controller: 'Empleados',

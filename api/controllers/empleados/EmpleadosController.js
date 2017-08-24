@@ -104,5 +104,23 @@ module.exports = {
                 }
             })
             .catch(res.negotiate)
-    }
+    },
+
+    estadoPulsera(req, res){
+        const data = req.allParams();
+        console.log(data)
+        Empleados.findOne({id : req.params.id})
+            .then((empleado) => {
+                if(empleado){
+                    if(data.estado === 'H0')
+                        sails.sockets.broadcast('empresa'+empleado.empresa+'watcher', 'connectPulsera', empleado, req);
+                    if(data.estado === 'H255')
+                        sails.sockets.broadcast('empresa'+empleado.empresa+'watcher', 'deconnectPulsera', empleado, req);
+                    res.ok();
+                }else{
+                    return res.notFound('No se encontro al empleado.')
+                }
+            })
+            .catch(res.negotiate)
+    },
 };
