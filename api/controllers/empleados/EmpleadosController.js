@@ -59,8 +59,7 @@ module.exports = {
     },
 
     saveImagen(req, res){
-        console.log(req.file('file'));
-        Empleados.findOne({id : req.params.id})
+        Empleados.findOne({id: req.allParams().id})
             .then((empleado) => {
                 if (empleado) {
                     if(empleado.imagen)
@@ -69,19 +68,18 @@ module.exports = {
                             dirname: sails.config.appPath + '/public/images/empleados',
                             saveAs: function (__newFileStream, cb) {
                                 cb(null, uid.sync(18) + empleado.id + '.' + _.last(__newFileStream.filename.split('.')));
-                            },
-                            maxBytes: 10000000
+                            }
                         },
                         (error, uploadedFiles) => {
                             if (error) return res.negotiate(error);
-                            if (!uploadedFiles[0]) return res.badRequest('ha ocurrido un error inesperado al almacenar la imagen');
+                            if (!uploadedFiles[0]) return res.badRequest('ha ocurrido un erro inesperado al almacenar la imagen');
                             const filename = _.last(uploadedFiles[0].fd.split('\\'));
                             empleado.imagen = filename;
-                            empleado.save((err, s) => res.ok('Archivos cargados'));
+                            empleado.save((err, s) => res.ok('files upload'));
                         }
                     );
                 } else {
-                    return res.notFound('El empleado no existe');
+                    return res.notFound('el empleado no existe');
                 }
             }).catch(res.negotiate);
     },
@@ -93,15 +91,14 @@ module.exports = {
             .then((empleado) => {
                 if(empleado){
                     if(data.estado !== empleado.estado){
-                        Empleados.update(empleado.id, {estado : data.estado})
-                            .then(function (de) {
-                                empleado.estado = data.estado;
-                                sails.sockets.broadcast('empresa'+empleado.empresa+'watcher', 'cambioEstado', empleado, req);
-                                res.ok();
-                            })
-                            .catch(res.negotiate)
+                        empleado.estado = data.estado;
+                        empleado.save(function(){
+                            sails.sockets.broadcast('empresa'+empleado.empresa+'watcher', 'cambioEstado', empleado, req);
+                            res.ok();
+                        });
+                    }else{
+                        res.ok('El empleado ya tiene el estado')
                     }
-                    res.ok('el empleado ya tenia el estado '+data.estado);
                 }else{
                     return res.notFound('No se encontro al empleado.')
                 }
