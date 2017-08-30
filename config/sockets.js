@@ -4,11 +4,11 @@
 
 module.exports.sockets = {
 
-  adapter: 'socket.io-redis',
-  host: '127.0.0.1',
-  port: 6379,
-  pass: '',
-  db: 'sails',
+  // adapter: 'socket.io-redis',
+  // host: '127.0.0.1',
+  // port: 6379,
+  // pass: '',
+  // db: 'sails',
 
   grant3rdPartyCookie: true,
 
