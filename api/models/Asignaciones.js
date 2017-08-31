@@ -15,6 +15,7 @@ module.exports = {
         pos_lng: {type: 'string', size: 255},
         estado: {type: 'string', size: 20, defaultsTo: 'vigente'},
         imagen: {type: 'string'},
+        duracion: {type: 'integer', defaultsTo: 0},
 
         empleado: {
             model: 'empleados'
