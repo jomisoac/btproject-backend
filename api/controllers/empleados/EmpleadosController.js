@@ -108,7 +108,6 @@ module.exports = {
 
     estadoPulsera(req, res){
         const data = req.allParams();
-        console.log(data)
         Empleados.findOne({id : req.params.id})
             .then((empleado) => {
                 if(empleado){
@@ -122,5 +121,24 @@ module.exports = {
                 }
             })
             .catch(res.negotiate)
+    },
+
+    notifyDeconection(req, res){
+        const data = req.allParams();
+        Empleados.findOne({id : req.params.id})
+            .then((empleado) => {
+                sails.sockets.broadcast('empresa'+empleado.empresa+'watcher', 'notifyDeconection', empleado, req);
+            })
+            .catch(res.negotiate)
+    },
+    postUbicacionEmpleado(req, res){
+        const data = req.allParams();
+        console.log(data);
+        Empleados.findOne({id : req.params.id})
+            .then((empleado) => {
+                sails.sockets.broadcast('empresa'+data.empresa+'watcher', 'posEmpleados', req.allParams(), req);
+            })
+            .catch(res.negotiate)
+        res.ok();
     },
 };

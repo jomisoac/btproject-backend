@@ -109,7 +109,22 @@ module.exports.routes = {
         }
     },
 
-    'DELETE /empleados/:id':{
+    'PUT /empleados/:id/notify_deconection': {
+        controller: 'Empleados',
+        action: 'notifyDeconection',
+
+        swagger: {
+            methods: ['PUT'],
+            summary: 'Notifica el estado de la coneccion a internet del empleado',
+            responses: {
+                200: {
+                    description: 'OK'
+                }
+            }
+        }
+    },
+
+    'DELETE /empleados/:id': {
         controller: 'Empleados',
         action: 'destroy',
 
@@ -123,7 +138,7 @@ module.exports.routes = {
             }
         }
     },
-    'POST /empleados/:id/imagen':{
+    'POST /empleados/:id/imagen': {
         controller: 'Empleados',
         action: 'saveImagen',
 
@@ -137,5 +152,18 @@ module.exports.routes = {
             }
         }
     },
+    'POST /empleados/:id/ubicaciones': {
+        controller: 'Empleados',
+        action: 'postUbicacionEmpleado',
 
-}
+        swagger: {
+            methods: ['POST'],
+            summary: 'Envia la ubicacion del empleado',
+            responses: {
+                200: {
+                    description: 'OK'
+                }
+            }
+        }
+    }
+};
