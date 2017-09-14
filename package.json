@@ -1,8 +1,8 @@
 {
-  "name": "viajaseguro-backend",
+  "name": "btproject-backend",
   "private": true,
   "version": "1.0.1",
-  "description": "backend viajaseguro",
+  "description": "backend btproject",
   "keywords": [],
   "dependencies": {
     "fcm-node": "^1.2.0",
