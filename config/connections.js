@@ -17,9 +17,9 @@ module.exports.connections = {
     mysqlServer: {
         adapter: 'sails-mysql',
         host: 'us-cdbr-iron-east-05.cleardb.net',
-        user: process.env.CLEARDB_USER,
-        password: process.env.JAWSDB_PASS,
-        database: process.env.CLEARDB_NAME//optional
+        user: 'b534018f70525e',
+        password: '9220f58b',
+        database: 'heroku_64e664d19d07633'//optional
     },
 
 

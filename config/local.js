@@ -16,8 +16,8 @@ module.exports = {
 
   connections: {
     mysqlServer: {
-      user: process.env.CLEARDB_USER,
-      password: process.env.JAWSDB_PASS
+        user: 'b534018f70525e',
+        password: '9220f58b',
     },
 
   },
