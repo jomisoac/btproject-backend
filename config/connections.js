@@ -17,7 +17,7 @@ module.exports.connections = {
   mysqlServer: {
     adapter: 'sails-mysql',
     host: 'localhost',
-    database: 'btproject' //optional
+    database: 'heroku_64e664d19d07633' //optional
   },
 
 
@@ -26,9 +26,9 @@ module.exports.connections = {
   ***************************************************************************/
   redis: {
     adapter: 'sails-redis',
-    port: 6379,
+    port: 9011,
     host: 'localhost',
-    password: ''
+    password: 'bccd85e4c5326f87a8b17cdb2561bff8'
   },
 
 };
