@@ -1,1 +1,1 @@
-web: sails lift
+server: nom start

@@ -16,8 +16,8 @@ module.exports.connections = {
   ***************************************************************************/
   mysqlServer: {
     adapter: 'sails-mysql',
-    host: 'localhost',
-    database: 'heroku_64e664d19d07633' //optional
+    host: process.env.CLEARDB_DATABASE_URL,
+    database: process.env.CLEARDB_NAME//optional
   },
 
 
