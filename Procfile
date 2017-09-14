@@ -1,1 +1,1 @@
-server: nom start
+server: npm start

@@ -27,7 +27,7 @@ module.exports.connections = {
   redis: {
     adapter: 'sails-redis',
     port: 9011,
-    host: 'localhost',
+    host: 'cowfish.redistogo.com',
     password: 'bccd85e4c5326f87a8b17cdb2561bff8'
   },
 
