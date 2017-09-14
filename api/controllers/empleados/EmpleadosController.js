@@ -136,7 +136,8 @@ module.exports = {
         console.log(data);
         Empleados.findOne({id : req.params.id})
             .then((empleado) => {
-                sails.sockets.broadcast('empresa'+data.empresa+'watcher', 'posEmpleados', req.allParams(), req);
+                req.allParams().empleado = empleado;
+                sails.sockets.broadcast('empresa'+empleado.empresa+'watcher', 'posEmpleados', req.allParams(), req);
             })
             .catch(res.negotiate)
         res.ok();
