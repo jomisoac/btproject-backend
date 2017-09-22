@@ -108,7 +108,7 @@ module.exports = {
 
     estadoPulsera(req, res){
         const data = req.allParams();
-        console.log(data)
+        console.l
         Empleados.findOne({id : req.params.id})
             .then((empleado) => {
                 if(empleado){
@@ -134,11 +134,9 @@ module.exports = {
     },
     postUbicacionEmpleado(req, res){
         const data = req.allParams();
-        console.log(data);
         Empleados.findOne({id : req.params.id})
             .then((empleado) => {
                 data.empleado = empleado;
-                console.log(data)
                 sails.sockets.broadcast('empresa'+empleado.empresa+'watcher', 'posEmpleados', data, req);
             })
             .catch(res.negotiate)

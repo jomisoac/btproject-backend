@@ -81,7 +81,8 @@ module.exports = {
             Asignaciones.update(req.allParams().id, {
                 estado: req.allParams().estado,
                 hora_finalizada: req.allParams().hora_finalizada,
-                fecha_finalizada: req.allParams().fecha_finalizada
+                fecha_finalizada: req.allParams().fecha_finalizada,
+                duracion: req.allParams().duracion
             }).then(updateRecords => {
                 Empleados.findOne({id: updateRecords[0].empleado}).then((empleado) => {
                     var data = {
