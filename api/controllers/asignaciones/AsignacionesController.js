@@ -133,7 +133,7 @@ module.exports = {
                 if (asignacion) {
                     if(asignacion.imagen)
                         fs.unlink(sails.config.appPath + '/public/images/confirmaciones/'+asignacion.imagen);
-                    req.file('file').upload({
+                        req.file('file').upload({
                             dirname: sails.config.appPath + '/public/images/confirmaciones',
                             saveAs: function (__newFileStream, cb) {
                                 cb(null, uid.sync(18) + asignacion.id + '.' + _.last(__newFileStream.filename.split('.')));
@@ -146,8 +146,7 @@ module.exports = {
                             const filename = _.last(uploadedFiles[0].fd.split('\\'));
                             asignacion.imagen = filename;
                             asignacion.save((err, s) => res.ok('Archivos cargados'));
-                        }
-                    );
+                        });
                 } else {
                     return res.notFound('El empleado no existe');
                 }

@@ -38,7 +38,7 @@ module.exports = {
                 if (empresa) {
                     if(empresa.logo)
                         fs.unlink(sails.config.appPath + '/public/images/empresas/'+empresa.logo);
-                    req.file('logo').upload({
+                        req.file('logo').upload({
                             dirname: sails.config.appPath + '/public/images/empresas',
                             saveAs: function (__newFileStream, cb) {
                                 cb(null, uid.sync(18) + empresa.id + '.' + _.last(__newFileStream.filename.split('.')));
@@ -50,8 +50,7 @@ module.exports = {
                             const filename = _.last(uploadedFiles[0].fd.split('/'));
                             empresa.logo = filename;
                             empresa.save((err, s) => res.ok('files upload'));
-                        }
-                    );
+                        });
                 } else {
                     return res.notFound('la empresa no existe');
                 }

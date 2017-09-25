@@ -64,20 +64,19 @@ module.exports = {
                 if (empleado) {
                     if(empleado.imagen)
                         fs.unlink(sails.config.appPath + '/public/images/empleados/'+empleado.imagen);
-                    req.file('file').upload({
-                            dirname: sails.config.appPath + '/public/images/empleados',
-                            saveAs: function (__newFileStream, cb) {
-                                cb(null, uid.sync(18) + empleado.id + '.' + _.last(__newFileStream.filename.split('.')));
-                            }
-                        },
-                        (error, uploadedFiles) => {
-                            if (error) return res.negotiate(error);
-                            if (!uploadedFiles[0]) return res.badRequest('ha ocurrido un erro inesperado al almacenar la imagen');
-                            const filename = _.last(uploadedFiles[0].fd.split('\\'));
-                            empleado.imagen = filename;
-                            empleado.save((err, s) => res.ok('files upload'));
-                        }
-                    );
+                            req.file('file').upload({
+                                dirname: sails.config.appPath + '/public/images/empleados',
+                                saveAs: function (__newFileStream, cb) {
+                                    cb(null, uid.sync(18) + empleado.id + '.' + _.last(__newFileStream.filename.split('.')));
+                                }
+                            },
+                            (error, uploadedFiles) => {
+                                if (error) return res.negotiate(error);
+                                if (!uploadedFiles[0]) return res.badRequest('ha ocurrido un erro inesperado al almacenar la imagen');
+                                const filename = _.last(uploadedFiles[0].fd.split('\\'));
+                                empleado.imagen = filename;
+                                empleado.save((err, s) => res.ok('files upload'));
+                            });
                 } else {
                     return res.notFound('el empleado no existe');
                 }
