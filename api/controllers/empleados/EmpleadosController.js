@@ -111,13 +111,13 @@ module.exports = {
         Empleados.findOne({id : req.params.id})
             .then((empleado) => {
                 if(empleado){
-                    if(data.estado === 'H0')
+                    if(data.estado === '0')
                         sails.sockets.broadcast('empresa'+empleado.empresa+'watcher', 'connectPulsera', empleado, req);
-                    if(data.estado === 'H255')
+                    if(data.estado === '255')
                         sails.sockets.broadcast('empresa'+empleado.empresa+'watcher', 'deconnectPulsera', empleado, req);
                     res.ok();
                 }else{
-                    return res.notFound('No se encontro al empleado.')
+                    return res.notFound('No se encontro al empleado.');
                 }
             })
             .catch(res.negotiate)

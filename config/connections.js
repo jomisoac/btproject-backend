@@ -16,10 +16,8 @@ module.exports.connections = {
   ***************************************************************************/
   mysqlServer: {
     adapter: 'sails-mysql',
-    host: 'us-cdbr-iron-east-05.cleardb.net',
-    database: 'heroku_64e664d19d07633', //optional
-    user: 'b534018f70525e',
-    password: '9220f58b'
+    host: '127.0.0.1',
+    database: 'btproject', //optional
   },
 
 
@@ -28,9 +26,9 @@ module.exports.connections = {
   ***************************************************************************/
   redis: {
     adapter: 'sails-redis',
-    port: 9011,
-    host: 'cowfish.redistogo.com',
-    password: 'bccd85e4c5326f87a8b17cdb2561bff8'
+    port: 6379,
+    host: 'localhost',
+    password: ''
   },
 
 };

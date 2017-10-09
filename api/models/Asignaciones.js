@@ -5,6 +5,7 @@ module.exports = {
     attributes: {
         fecha_asignada:    {type: 'date', defaultsTo: () => moment().format('YYYY-MM-DD') },
         fecha_finalizada:    {type: 'date' },
+        fecha_ingreso:  {type:'date',defaultsTo: () => moment().format('YYYY-MM-DD') },
         hora_asignada: {type: 'string'},
         hora_finalizada: {type: 'string'},
         cliente_nombre:  {type: 'string', size: 150},
@@ -14,7 +15,7 @@ module.exports = {
         ciudad: {type: 'string', size: 80},
         pos_lng: {type: 'string', size: 255},
         estado: {type: 'string', size: 20, defaultsTo: 'vigente'},
-        imagen: {type: 'string'},
+        // imagen: {type: 'string'},
         duracion: {type: 'integer', defaultsTo: 0},
 
         empleado: {
@@ -24,6 +25,11 @@ module.exports = {
         empresa: {
             model: 'empresas'
         },
+
+        images: {
+            collection: 'images',
+            via: 'asignacion'
+        }
     },
 
     autoCreatedAt: true,

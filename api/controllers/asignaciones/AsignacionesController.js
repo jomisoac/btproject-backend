@@ -51,6 +51,46 @@ module.exports = {
         }
     },
 
+    confirmAsignacion(req, res){
+        var data = req.allParams();
+        function broadcastAsignacion(data) {
+            Empleados.findOne({id: data.empleado}).then((empleado) => {
+                User.findOne({id: empleado.user}).then((user) => {
+                    var data = {
+                        title: 'Hola ' +empleado.nombres + ' ' + empleado.apellidos,
+                        type: 'trabajo',
+                        body: 'Hemos validado tu servicio, puedes trabajar tranquilamente.'
+                    }
+                    PusherService.send(data, user.reg_id);
+                })
+            });
+        }
+    },
+
+    cancelAsignacion(req, res){
+        var data = req.allParams();
+        Asignaciones.update(data.id,  {
+            estado: 'vigente',
+            imagen: null
+        }).then(updateRecords => {
+            broadcastAsignacion(data.empleado);
+        })
+
+        broadcastAsignacion(data.empleado);
+        function broadcastAsignacion(data) {
+            Empleados.findOne({id: data}).then((empleado) => {
+                User.findOne({id: empleado.user}).then((user) => {
+                    var data = {
+                        title: 'Hola ' +empleado.nombres + ' ' + empleado.apellidos,
+                        type: 'trabajo',
+                        body: 'No pudimos verificar que seas tu en el trabajo, cancelaremos tu servicio.'
+                    }
+                    PusherService.send(data, user.reg_id);
+                })
+            });
+        }
+    },
+
     getAsignaciones(req, res){
         Asignaciones.find({
             where: {
@@ -58,7 +98,7 @@ module.exports = {
                 createdAt: limitFecha(req)
             },
             sort: 'createdAt DESC'
-        }).populate('empleado').then(asignaciones => {
+        }).populate('empleado').populate('images').then(asignaciones => {
             return res.ok(asignaciones);
         })
     },
@@ -144,8 +184,13 @@ module.exports = {
                             if (error) return res.negotiate(error);
                             if (!uploadedFiles[0]) return res.badRequest('ha ocurrido un error inesperado al almacenar la imagen');
                             const filename = _.last(uploadedFiles[0].fd.split('\\'));
-                            asignacion.imagen = filename;
-                            asignacion.save((err, s) => res.ok('Archivos cargados'));
+                            // asignacion.imagen = filename;
+                            // asignacion.save((err, s) => res.ok('Archivos cargados'));
+
+                            Images.create({
+                                path: filename,
+                                asignacion: asignacion.id
+                            }).exec((err, img) => res.ok('ok'));
                         });
                 } else {
                     return res.notFound('El empleado no existe');
@@ -154,6 +199,8 @@ module.exports = {
     },
 
 };
+
+
 
 function limitFecha(req, default_dia) {
     var fecha_hasta = req.param('fecha_hasta') ? moment(req.param('fecha_hasta')) : moment();

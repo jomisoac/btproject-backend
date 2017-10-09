@@ -47,7 +47,8 @@ module.exports = {
                                         'movil',
                                         'fecha_nacimiento',
                                         'telefono',
-                                        'direccion'
+                                        'direccion',
+                                        'iddispositivo'
                                     ]);
                                     callback(user);
                                 }).catch(res.negotiate);

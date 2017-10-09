@@ -16,6 +16,7 @@ module.exports = {
         estado:             { type: 'string', defaultsTo: 'disponible'},
         activo:             { type: 'boolean', defaultsTo: true},
         movil:              { type: 'string', required: true, size: 50},
+        iddispositivo:      { type: 'string', required: true, size: 50},
 
         // relaciones
         empresa: {

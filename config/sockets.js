@@ -5,9 +5,9 @@
 module.exports.sockets = {
     // adapter: 'memory',
   adapter: 'socket.io-redis',
-  host: 'cowfish.redistogo.com',
-  port: 9011,
-  pass: 'bccd85e4c5326f87a8b17cdb2561bff8',
+  host: 'localhost',
+  port: 6379,
+  pass: '',
   db: 'sails',
     origins: '*:*',
     onlyAllowOrigins: '*:*',

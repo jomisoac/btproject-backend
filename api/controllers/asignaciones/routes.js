@@ -86,7 +86,35 @@ module.exports.routes = {
                 description: 'OK'
             }
         }
-    }
+    },
+    'POST /asignaciones/:id/cancel_empleado':{
+        controller: 'Asignaciones',
+            action: 'cancelAsignacion',
+
+            swagger: {
+            methods: ['POST'],
+                summary: 'Guarda la imagen de confirmacion de la asignacion',
+                responses: {
+                200: {
+                    description: 'OK'
+                }
+            }
+        }
+    },
+    'POST /asignaciones/:id/verify_empleado':{
+        controller: 'Asignaciones',
+            action: 'confirmAsignacion',
+
+            swagger: {
+            methods: ['POST'],
+                summary: 'Guarda la imagen de confirmacion de la asignacion',
+                responses: {
+                200: {
+                    description: 'OK'
+                }
+            }
+        }
+    },
 },
 
 }
