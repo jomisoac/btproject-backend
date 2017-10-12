@@ -123,4 +123,32 @@ module.exports.routes = {
             }
         }
     },
+    'GET /empresa/mensajes/empleado/:id':{
+        controller: 'Empresas',
+        action: 'getChatsEmpleado',
+
+        swagger: {
+            methods: ['GET'],
+            summary: 'Guarda el logo de la empresa',
+            responses: {
+                200: {
+                    description: 'OK'
+                }
+            }
+        }
+    },
+    'POST /empresa/mensajes/empleado':{
+        controller: 'Empresas',
+        action: 'sendMessageEmpleado',
+
+        swagger: {
+            methods: ['POST'],
+            summary: 'Guarda el logo de la empresa',
+            responses: {
+                200: {
+                    description: 'OK'
+                }
+            }
+        }
+    },
 };

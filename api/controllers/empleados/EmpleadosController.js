@@ -5,6 +5,7 @@ const actionUtil = require('../../blueprints/myActionUtil');
 const _ = require('lodash');
 var fs = require('fs');
 const uid = require('uid-safe');
+const moment = require('moment');
 
 module.exports = {
     identity: 'Empleados',
@@ -28,6 +29,40 @@ module.exports = {
                 }
                 res.negotiate(error);
             });
+    },
+
+    findOne(req, res){
+        Empleados.findOne({identificacion: req.allParams().id})
+            .populate('asignaciones').where({estado:'finalizado'})
+            .then((empleado) => {
+                if (empleado) {
+                    res.ok(empleado);
+                } else {
+                    return res.notFound('El empleado que intenta buscar no existe');
+                }
+            }).catch(res.negotiate);
+    },
+
+    findAsignaciones(req, res){
+        Empleados.findOne({identificacion: req.allParams().id})
+            .then((empleado) => {
+                if (empleado) {
+                    Asignaciones.find({
+                        empleado: empleado.id,
+                        estado: 'finalizado',
+                        createdAt: limitFecha(req)
+                    }).populate('images').then(asignaciones => {
+                        var data = {
+                            empleado : empleado,
+                            asignaciones: asignaciones
+                        }
+                        return res.ok(data);
+                    })
+                } else {
+                    return res.notFound('El empleado que intenta buscar no existe');
+                }
+            }).catch(res.negotiate);
+
     },
 
     find(req, res){
@@ -141,4 +176,36 @@ module.exports = {
             .catch(res.negotiate)
         res.ok();
     },
+
+    getListMessages(req, res){
+        Messages.find({empleado: req.allParams().id}).then((mensajes)=>{
+            return res.ok(mensajes);
+        })
+    },
+    sendMessage(req, res){
+        Messages.create(req.allParams()).then((message)=>{
+            sails.sockets.broadcast('empresa'+message.empresa+'watcher', 'MensajeEmpleado'+message.empleado, message, req)
+            res.ok(message);
+        }).catch(res.negotiate);
+    }
+};
+function limitFecha(req, default_dia) {
+    var fecha_hasta = req.param('fecha_hasta') ? moment(req.param('fecha_hasta')) : moment();
+    if (req.param('fecha_desde')) {
+        var fecha_desde = moment(req.param('fecha_desde'));
+    } else {
+        default_dia || (default_dia = false);
+        var fecha_desde = default_dia ? moment() : moment().date(1);
+    }
+    fecha_desde.set('hour', 0).set('minute', 0).set('second', 0);
+    fecha_hasta.set('hour', 0).set('minute', 0).set('second', 0);
+    // fecha_desde.add(-1, 'd');
+    fecha_hasta.add(1, 'd');
+
+    console.log(fecha_desde.toDate(), '**************');
+    console.log(fecha_hasta.toDate(), '**************');
+    return {
+        '>=': fecha_desde.toDate(),
+        '<': fecha_hasta.toDate()
+    }
 };

@@ -46,6 +46,7 @@ module.exports = {
                         body: 'Se te asigno un nuevo trabajo, actualiza para verificarlo.'
                     }
                     PusherService.send(data, user.reg_id);
+                    res.ok();
                 })
             });
         }
@@ -53,18 +54,17 @@ module.exports = {
 
     confirmAsignacion(req, res){
         var data = req.allParams();
-        function broadcastAsignacion(data) {
-            Empleados.findOne({id: data.empleado}).then((empleado) => {
-                User.findOne({id: empleado.user}).then((user) => {
-                    var data = {
-                        title: 'Hola ' +empleado.nombres + ' ' + empleado.apellidos,
-                        type: 'trabajo',
-                        body: 'Hemos validado tu servicio, puedes trabajar tranquilamente.'
-                    }
-                    PusherService.send(data, user.reg_id);
-                })
-            });
-        }
+        Empleados.findOne({id: data.empleado}).then((empleado) => {
+            User.findOne({id: empleado.user}).then((user) => {
+                var data = {
+                    title: 'Hola ' +empleado.nombres + ' ' + empleado.apellidos,
+                    type: 'confirmacion_verify',
+                    body: 'Hemos validado tu servicio, puedes trabajar tranquilamente.'
+                }
+                PusherService.send(data, user.reg_id);
+                res.ok();
+            })
+        });
     },
 
     cancelAsignacion(req, res){
@@ -73,19 +73,18 @@ module.exports = {
             estado: 'vigente',
             imagen: null
         }).then(updateRecords => {
-            broadcastAsignacion(data.empleado);
+            broadcastAsignacion(updateRecords);
         })
-
-        broadcastAsignacion(data.empleado);
         function broadcastAsignacion(data) {
-            Empleados.findOne({id: data}).then((empleado) => {
+            Empleados.findOne({id: data[0].empleado}).then((empleado) => {
                 User.findOne({id: empleado.user}).then((user) => {
                     var data = {
                         title: 'Hola ' +empleado.nombres + ' ' + empleado.apellidos,
-                        type: 'trabajo',
+                        type: 'confirmacion_cancel',
                         body: 'No pudimos verificar que seas tu en el trabajo, cancelaremos tu servicio.'
                     }
                     PusherService.send(data, user.reg_id);
+                    res.ok();
                 })
             });
         }
@@ -93,11 +92,8 @@ module.exports = {
 
     getAsignaciones(req, res){
         Asignaciones.find({
-            where: {
-                empresa: req.allParams().id,
-                createdAt: limitFecha(req)
-            },
-            sort: 'createdAt DESC'
+            empresa: req.allParams().id,
+            createdAt: limitFecha(req)
         }).populate('empleado').populate('images').then(asignaciones => {
             return res.ok(asignaciones);
         })
@@ -167,13 +163,26 @@ module.exports = {
         });
     },
 
+    updateTime(req, res){
+        Asignaciones.update(req.allParams().id, {
+            duracion: req.allParams().duracion,
+        }).then(updateRecords => {
+            Empleados.findOne({id: updateRecords[0].empleado}).then((empleado) => {
+                var data = {
+                    empleado : empleado,
+                    trabajo: updateRecords[0]
+                };
+                sails.sockets.broadcast('empleado'+empleado.id+'watcher', 'HoraActualizada', data, req);
+            });
+            return res.ok();
+        });
+    },
+
     saveImagen(req, res){
         Asignaciones.findOne({id : req.params.id})
             .then((asignacion) => {
                 if (asignacion) {
-                    if(asignacion.imagen)
-                        fs.unlink(sails.config.appPath + '/public/images/confirmaciones/'+asignacion.imagen);
-                        req.file('file').upload({
+                    req.file('file').upload({
                             dirname: sails.config.appPath + '/public/images/confirmaciones',
                             saveAs: function (__newFileStream, cb) {
                                 cb(null, uid.sync(18) + asignacion.id + '.' + _.last(__newFileStream.filename.split('.')));
@@ -192,8 +201,9 @@ module.exports = {
                                 asignacion: asignacion.id
                             }).exec((err, img) => res.ok('ok'));
                         });
+
                 } else {
-                    return res.notFound('El empleado no existe');
+                    return res.notFound('La asignacion no existe');
                 }
             }).catch(res.negotiate);
     },

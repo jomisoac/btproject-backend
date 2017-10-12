@@ -50,6 +50,21 @@ module.exports.routes = {
         }
     },
 
+    'GET /empleados/:id/asignaciones': {
+        controller: 'Empleados',
+        action: 'findAsignaciones',
+
+        swagger: {
+            methods: ['GET'],
+            summary: 'Obtiene todas los empleados de una empresa',
+            responses: {
+                200: {
+                    description: 'OK'
+                }
+            }
+        }
+    },
+
     'GET /empleados/:id': {
         controller: 'Empleados',
         action: 'findOne',
@@ -165,5 +180,33 @@ module.exports.routes = {
                 }
             }
         }
-    }
+    },
+    'GET /empleados/:id/mensajes': {
+        controller: 'Empleados',
+        action: 'getListMessages',
+
+        swagger: {
+            methods: ['GET'],
+            summary: 'Lista mensajes de la empresa',
+            responses: {
+                200: {
+                    description: 'OK'
+                }
+            }
+        }
+    },
+    'POST /empleados/mensajes': {
+        controller: 'Empleados',
+        action: 'sendMessage',
+
+        swagger: {
+            methods: ['POST'],
+            summary: 'Lista mensajes de la empresa',
+            responses: {
+                200: {
+                    description: 'OK'
+                }
+            }
+        }
+    },
 };

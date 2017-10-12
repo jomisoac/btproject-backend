@@ -151,4 +151,19 @@ module.exports.routes = {
             },
         }
     },
+
+    'GET /empleado/:id/watcher': {
+        controller: 'user/Auth',
+        action: 'suscribe_watcher_empleado',
+
+        swagger: {
+            methods: ['GET'],
+            summary: 'Suscribe a la escucha',
+            responses: {
+                200: {
+                    description: 'OK',
+                }
+            },
+        }
+    },
 };

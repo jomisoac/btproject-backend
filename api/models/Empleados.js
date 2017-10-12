@@ -25,6 +25,10 @@ module.exports = {
 
         user: {
             model: 'user'
+        },
+        asignaciones: {
+            collection: 'asignaciones',
+            via: 'empleado'
         }
 
     },

@@ -25,6 +25,6 @@ module.exports.sockets = {
     return cb();
   },
 
-  transports: ["websocket"]
+  transports: ['polling', 'websocket']
 
 };

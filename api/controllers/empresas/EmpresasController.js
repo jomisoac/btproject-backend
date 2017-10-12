@@ -32,6 +32,19 @@ module.exports = {
         })
     },
 
+    getChatsEmpleado(req, res){
+        Messages.find({empleado: req.allParams().id}).then((messages)=>{
+          return res.ok(messages);
+        })
+    },
+    sendMessageEmpleado(req, res){
+        var data = req.allParams();
+        Messages.create(data).then((message)=>{
+            sails.sockets.broadcast('empleado'+message.empleado+'watcher', 'NuevoMensaje', message, req)
+            res.ok(message)
+        })
+    },
+
     saveLogo(req, res){
         Empresas.findOne({id: req.allParams().id})
             .then((empresa) => {

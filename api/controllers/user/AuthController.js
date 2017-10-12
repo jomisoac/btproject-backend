@@ -108,6 +108,19 @@ module.exports = {
         });
     },
 
+    suscribe_watcher_empleado(req, res){
+        if (!req.isSocket) {
+            return res.badRequest();
+        }
+        console.log('Me subscribi');
+        sails.sockets.join(req, 'empleado'+req.allParams().id+'watcher', function(err) {
+            if (err) {
+                return res.serverError(err);
+            }
+            return res.ok();
+        });
+    },
+
     refresh_token(req, res) {
         const auth_token = req.headers.authorization.split(' ');
         const oldDecoded = JWTService.token.decode(auth_token[1]);
